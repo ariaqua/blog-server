@@ -1,0 +1,9 @@
+extends layout.pug
+
+block content
+  img.header-pictrue(src=data.pictrue width="100%" height="300px")
+  main.article
+    article
+      h1.title= data.title
+      time.date(datatime=data.create_date)= new Date(data.create_date).toDateString()
+      p.content= data.content 
