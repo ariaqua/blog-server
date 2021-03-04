@@ -13,6 +13,7 @@ import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 
+@Public()
 @Controller('api/article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}

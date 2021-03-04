@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -52,7 +53,7 @@ export class UserController {
   ): Promise<User> {
     return this.userService.update(+id, updateUserDto).catch((err) => {
       if (err.code === 11000) {
-        throw new ConflictException(err.message);
+        throw new BadRequestException(err.message);
       }
       throw new NotFoundException(err.message);
     });

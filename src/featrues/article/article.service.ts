@@ -22,7 +22,9 @@ export class ArticleService {
   }
 
   findOne(id: number) {
-    return this.articleRepository.findOneOrFail(id);
+    return this.articleRepository.findOneOrFail(id, {
+      relations: ['categories'],
+    });
   }
 
   findByIds(ids: number[]) {
