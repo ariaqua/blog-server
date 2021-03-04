@@ -1,11 +1,11 @@
 export enum ArticleState {
-  private,
-  public,
-  draft,
+  private = 'private',
+  public = 'public',
+  draft = 'draft',
 }
 
 export enum CommentState {
-  private,
-  public,
-  locked,
+  private = 'private',
+  public = 'public',
+  locked = 'locked',
 }

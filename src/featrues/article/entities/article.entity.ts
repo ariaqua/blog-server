@@ -9,6 +9,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  RelationId,
 } from 'typeorm';
 import {
   ArticleState,
@@ -35,7 +36,7 @@ export class Article {
   @UpdateDateColumn()
   update_date: Date;
 
-  @Column({ type: 'enum', enum: ArticleState })
+  @Column({ type: 'enum', enum: ArticleState, default: ArticleState.public })
   article_state: ArticleState;
 
   @Column({ type: 'enum', enum: CommentState, default: CommentState.public })
@@ -61,6 +62,9 @@ export class Article {
 
   @Column({ length: 120, nullable: true })
   tags: string;
+
+  @RelationId((article: Article) => article.categories)
+  categoryIds: number[];
 
   @ManyToMany(() => Category, (category) => category.articles, {
     cascade: true,
