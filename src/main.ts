@@ -11,6 +11,8 @@ async function bootstrap() {
 
   // app.setGlobalPrefix('api');
 
+  // app.enableCors({ origin: 'http://localhost:9528' });
+
   app.useGlobalPipes(new ValidationPipe());
 
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/static/' });

@@ -24,7 +24,8 @@ export class AlbumService {
   }
 
   upload(file: MulterFileType) {
-    return file.path.replace(/.+\/uploads/, 'uploads');
+    console.log(file);
+    return file.path.replace(/.+uploads/, 'uploads');
   }
 
   unlink(url: string) {
