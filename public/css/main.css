@@ -114,6 +114,7 @@ main.article {
 }
 img {
   vertical-align: middle;
+  max-width: 100%;
 }
 a>h1 {
   display: inline;

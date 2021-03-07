@@ -10,7 +10,6 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { Public } from 'src/common/decorators/public.decorator';
 // import { ValidateObjectIDPipe } from 'src/common/pipes/validateObjectID.pipe';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -30,13 +29,11 @@ export class CategoryController {
     });
   }
 
-  @Public()
   @Get()
   findAll(): Promise<Category[]> {
     return this.categoryService.findAll();
   }
 
-  @Public()
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Category> {
     return this.categoryService.findOne(+id).catch((err) => {

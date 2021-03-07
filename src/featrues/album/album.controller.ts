@@ -28,8 +28,18 @@ export class AlbumController {
     return this.albumService.upload(file);
   }
 
+  @Post('uploadFile')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(
+    @UploadedFile() file: MulterFileType,
+    @Body() createAlbum: CreateAlbumDto,
+  ) {
+    return this.albumService.uploadFile(file, createAlbum);
+  }
+
   @Delete('unlink')
   unlink(@Body('url') url: string) {
+    console.log('url:   ' + url);
     return this.albumService.unlink(url);
   }
 

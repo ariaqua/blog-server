@@ -3,6 +3,7 @@ import { FileType, FileState } from '../enum/album.enum';
 
 export class CreateAlbumDto {
   @IsString()
+  @IsOptional()
   name: string;
 
   @IsString()

@@ -11,7 +11,7 @@ export abstract class AlbumBase {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'char', length: 16 })
+  @Column({ type: 'char', length: 16, nullable: true })
   name: string;
 
   @Column({ type: 'char', length: 120 })
@@ -20,7 +20,7 @@ export abstract class AlbumBase {
   @Column({ type: 'enum', enum: FileState, default: FileState.public })
   state: FileState;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true })
   desc: string;
 
   @Column({ type: 'enum', enum: FileType })

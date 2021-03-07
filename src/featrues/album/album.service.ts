@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { unlinkSync } from 'fs';
@@ -24,18 +24,22 @@ export class AlbumService {
   }
 
   upload(file: MulterFileType) {
-    console.log(file);
     return file.path.replace(/.+uploads/, 'uploads');
   }
 
+  uploadFile(file: MulterFileType, createAlbumDto: CreateAlbumDto) {
+    const fileType = createAlbumDto.fileType;
+    createAlbumDto.url = file.path.replace(/.+uploads/, 'uploads');
+    return this.albumManager.save(this.getEntity(fileType), createAlbumDto);
+  }
+
   unlink(url: string) {
-    let unlinkFileStatus = HANDER_SUCCESS;
     try {
       unlinkSync(join(__dirname, '../../', url));
     } catch (error) {
-      unlinkFileStatus = HANDER_FAILED;
+      throw new NotFoundException();
     }
-    return { unlinkFileStatus };
+    return { unlinkFileStatus: HANDER_SUCCESS };
   }
 
   create(fileType: FileType, createAlbumDto: CreateAlbumDto) {
