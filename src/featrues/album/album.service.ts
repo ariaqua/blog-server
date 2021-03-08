@@ -24,12 +24,14 @@ export class AlbumService {
   }
 
   upload(file: MulterFileType) {
-    return file.path.replace(/.+uploads/, 'uploads');
+    return file.path.replace(/.+uploads/, 'uploads').replace(/\\/g, '/');
   }
 
   uploadFile(file: MulterFileType, createAlbumDto: CreateAlbumDto) {
     const fileType = createAlbumDto.fileType;
-    createAlbumDto.url = file.path.replace(/.+uploads/, 'uploads');
+    createAlbumDto.url = file.path
+      .replace(/.+uploads/, 'uploads')
+      .replace(/\\/g, '/');
     return this.albumManager.save(this.getEntity(fileType), createAlbumDto);
   }
 
