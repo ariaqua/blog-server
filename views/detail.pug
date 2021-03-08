@@ -6,4 +6,8 @@ block content
     article
       h1.title= data.title
       time.date(datatime=data.create_date)= new Date(data.create_date).toDateString()
-      p.content!= data.content 
+      p.content!= data.content
+    .comments
+append foot 
+  script(src="/static/js/comment.js") 
+

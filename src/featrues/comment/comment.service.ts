@@ -18,7 +18,7 @@ export class CommentService {
   findByArticleId(id: number) {
     return this.commentRepository.find({
       where: { article: id },
-      select: ['id', 'avatar', 'comment'],
+      select: ['id', 'avatar', 'comment', 'alia', 'date'],
       relations: ['children'],
     });
   }

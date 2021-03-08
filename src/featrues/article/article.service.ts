@@ -18,13 +18,22 @@ export class ArticleService {
   }
 
   findAll() {
-    return this.articleRepository.find({ relations: ['categories'] });
+    return this.articleRepository.find({
+      select: ['id', 'title', 'summary', 'pictrue', 'create_date'],
+      relations: ['categories'],
+    });
   }
 
   findOne(id: number) {
     return this.articleRepository.findOneOrFail(id, {
-      relations: ['categories'],
+      relations: ['categories', 'conments'],
     });
+    // return this.articleRepository
+    //   .createQueryBuilder('article')
+    //   .leftJoinAndSelect('article.categories', 'category')
+    //   .leftJoinAndSelect('article.conments', 'comment')
+    //   .where('article.id = :id', { id })
+    //   .getOneOrFail();
   }
 
   findByIds(ids: number[]) {
