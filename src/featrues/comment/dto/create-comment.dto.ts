@@ -13,6 +13,7 @@ export class CreateCommentDto {
   alia: string;
 
   @IsString()
+  @IsOptional()
   avatar: string;
 
   @IsEmail()

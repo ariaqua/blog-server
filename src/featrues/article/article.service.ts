@@ -21,6 +21,7 @@ export class ArticleService {
     return this.articleRepository.find({
       select: ['id', 'title', 'summary', 'pictrue', 'create_date'],
       relations: ['categories'],
+      order: { id: 1 },
     });
   }
 

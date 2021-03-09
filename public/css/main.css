@@ -177,7 +177,7 @@ a>h1:hover {
 .comment .row input:focus {
   border: 1px solid #666;
 }
-.comment-conent {
+.comment .row .comment-conent {
   width: 100%;
   resize: none;
   height: 140px;
@@ -189,7 +189,7 @@ a>h1:hover {
   font-family: var(--font-family);
   vertical-align: middle;
 }
-.comment-conent:focus {
+.comment .row .comment-conent:focus {
   border: 1px solid #666;
 }
 button.submit {
