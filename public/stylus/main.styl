@@ -1,18 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap')
 
+:root
+  --font-family 'PingFang SC', 'Lantinghei SC', 'Microsoft Yahei', 'Hiragino Sans GB', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans
+
 body
   margin 0
   line-height 1.8
-  font-family "PingFang SC","Lantinghei SC","Microsoft Yahei","Hiragino Sans GB","Microsoft Sans Serif","WenQuanYi Micro Hei",sans;
+  font-family var(--font-family)
+
 a
   text-decoration none
-  color: #222
+  color #222
   &:visited
-    color: #222
+    color #222
+
 svg
   vertical-align middle
+
 h1
-  margin: 0
+  margin 0
+
+button, input, textarea
+  outline none
+
 nav
   height 72px
   box-sizing border-box
@@ -23,7 +33,7 @@ nav
   position fixed
   top 0
   width 100%
-  transition all 0.5s
+  transition all 0.2s
   a, svg
     cursor pointer
   .brand
@@ -73,46 +83,142 @@ nav
     left 0
     top 72px
     padding 16px
-    transition all 0.5s
+    transition all 0.2s
     transform translateY(calc(-100% + 1px))
     border-bottom 1px solid whitesmoke
     a.link
       margin 24px
       cursor pointer
       color gray
-      transition all 0.5s
+      transition all 0.2s
       &:hover
         color black
+
 main
   margin 0 auto
   max-width 860px
   padding 1rem
+
 main.articles
   margin-top 90px
+
 main.article
   margin-top 32px
+
 img
   vertical-align middle
   max-width 100%
+
 a>h1
   display inline
   &:hover
-    text-decoration: underline
+    text-decoration underline
+
 .list-article
   margin-bottom 3rem
+
 .header-pictrue, .list-pictrue
   object-fit cover
+
 .summary
-  color: #666
+  color #666
+
 .articles
   .summary, .title, .date
     padding 0 2rem
+
 .content
-  color: #444
+  color #444
+
 .date
   margin-top 0
-  color: #b2bac2
-  font-size: 14px
+  color #b2bac2
+  font-size 14px
+
+.comment
+  margin-top 72px
+  .row
+    display flex
+    flex-direction column
+    margin-bottom 16px
+    input
+      height 38px
+      border-radius 6px
+      border 1px solid #eee
+      font-family var(--font-family)
+      padding 0 16px
+      box-sizing border-box
+      transition all 0.35s
+      margin-bottom 16px
+      &:last-child
+        margin-bottom 0
+      &:focus
+        border 1px solid #666
+
+.comment-conent
+  width 100%
+  resize none
+  height 140px
+  border 1px solid #eee
+  border-radius 6px
+  transition all 0.35s
+  padding 16px
+  box-sizing border-box
+  font-family var(--font-family)
+  vertical-align middle
+  &:focus
+    border 1px solid #666
+
+button.submit
+  border none
+  padding 0 20px
+  height 36px
+  border-radius 6px
+  transition all 0.5s
+  color #666
+  border 1px solid #eee
+  &:hover
+    background #222
+    border 1px solid #222
+    color white
+    cursor pointer
+
+.comments-wrapper
+  margin-top 48px
+  .head
+    display flex
+    align-items center
+    font-size 15px
+    .alia
+      color #666
+    .at
+      margin 0 4px
+    .time
+      color #999
+      font-size 12px
+  .avatar
+    width 40px
+    height 40px
+    object-fit cover
+    border-radius 50%
+    margin-right 12px
+  .content
+    margin 4px 0 18px 24px
+    padding-bottom 18px
+    border-bottom 1px solid whitesmoke
+  .comment-wrapper
+    margin-bottom 42px
+    border-bottom 1px solid whitesmoke
+    &:last-child
+      border-bottom none
+    > .content
+      &:last-child
+        border-bottom none
+  .sub-comment-wrapper
+    margin-left 24px
+    &:last-child > .content
+      border-bottom none
+
 @media (min-width 576px)
   main.articles
     margin-top 120px
@@ -120,12 +226,31 @@ a>h1
     height 400px
   .header-pictrue
     height 450px
+  .comments-wrapper
+    .head
+      flex-direction row
+    .alia_time-wrapper
+      display flex
+      align-items center
+      justify-content space-between
+      width 100%
+  .comment
+    .row
+      flex-direction row
+      input
+        flex 1
+        margin-right 24px
+        margin-bottom 0
+        &:last-child
+          margin-right 0
+
 @media (min-width 1200px)
   .list-pictrue
     height 500px
   .header-pictrue
-    margin-top: 72px
+    margin-top 72px
     height 650px
+
 @media (min-width 1921px)
   .header-pictrue
     display block
