@@ -1,4 +1,8 @@
 const articleId = location.pathname.split('/').pop();
+const alia = document.querySelector('.alia');
+const email = document.querySelector('.email');
+const comment = document.querySelector('.comment-content');
+const commentAt = document.querySelector('.comment-content-at');
 
 // fetch comments
 const commentsWrapper = document.querySelector('.comments-wrapper');
@@ -32,6 +36,16 @@ function fetchComment() {
                     <div>
                       <span class="alia">${subComment.alia}</span>
                       <span>${deepStr}</span>
+                      <a 
+                        href="#comment"
+                        class="reply" 
+                        onclick="reply(
+                          ${subComment.id},
+                          '${subComment.alia}',
+                          '${subComment.email}'
+                      )">
+                        Reply
+                      </a>
                     </div>
                     <div class="time">
                       ${dayjs(subComment.date).format(' YYYY-MM-DD HH: mm')}
@@ -46,18 +60,29 @@ function fetchComment() {
 
         str += `
             <div class="comment-wrapper">
-              <div class="head">
-                <img class="avatar" src="${comment.avatar}" />
-                <div class="alia_time-wrapper">
-                  <div class="alia">${comment.alia}</div>
-                  <div  class="time">
-                    ${dayjs(comment.date).format(' YYYY-MM-DD HH: mm')}
+              <div class="__comment-wrapper">
+                <div class="head">
+                  <img class="avatar" src="${comment.avatar}" />
+                  <div class="alia_time-wrapper">
+                    <div class="alia">${comment.alia}</div>\
+                    <a
+                      href="#comment" 
+                      class="reply" 
+                      onclick="reply(
+                        ${comment.id}, '${comment.alia}', '${comment.email}'
+                    )">
+                      Reply
+                    </a>
+                    <div class="time">
+                      ${dayjs(comment.date).format(' YYYY-MM-DD HH: mm')}
+                    </div>
                   </div>
                 </div>
                 
+                <p class="content">${comment.comment}</p>
               </div>
               
-              <p class="content">${comment.comment}</p>
+
               ${subStr}
             </div>
             `;
@@ -73,16 +98,13 @@ fetchComment();
 const submit = document.querySelector('.submit');
 
 submit.onclick = function () {
-  const alia = document.querySelector('.alia').value;
-  const email = document.querySelector('.email').value;
-  const comment = document.querySelector('.comment-conent').value;
   const avatar =
     'http://cdn.u2.huluxia.com/g3/M00/2A/74/wKgBOVwKin-APdabAADFkZN89Ok088.jpg';
   const payload = {
-    alia,
+    alia: alia.value,
     avatar,
-    comment,
-    article: 6,
+    comment: comment.value,
+    article: +articleId,
   };
   fetch('api/comment', {
     method: 'post',
@@ -96,4 +118,23 @@ submit.onclick = function () {
       fetchComment();
     })
     .catch((error) => console.error('Error:', error));
+};
+
+// reply
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function reply(id, alia, email) {
+  console.log(id, alia, email);
+  commentAt.innerHTML = '@ ' + alia + '<span class="close">x</span>';
+  commentAt.style.opacity = 1;
+  commentAt.style.width = 'inherit';
+  commentAt.style.padding = '0 16px';
+  comment.style.paddingTop = '58px';
+
+  // document.querySelector('.comment-content').value = '@ ' + alia;
+}
+
+commentAt.onclick = function () {
+  commentAt.style.width = 0;
+  commentAt.style.padding = 0;
+  comment.style.paddingTop = '16px';
 };

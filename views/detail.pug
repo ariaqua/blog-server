@@ -7,12 +7,13 @@ block content
       h1.title= data.title
       time.date(datatime=data.create_date)= new Date(data.create_date).toDateString()
       p.content!= data.content
-    .comment
+    .comment#comment
       .row
-        input.alia(placeholder="Name(required)")
+        input.alia(placeholder="Name (Required)")
         input.email(placeholder="Email")
-      .row
-        textarea.comment-conent(placeholder="Say Something")
+      .row.comment-content-row
+        .comment-content-at
+        textarea.comment-content(placeholder="Say Something (Required)")
       .row
         button.submit Submit
     .comments-wrapper

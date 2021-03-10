@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap");
 :root {
+  scroll-behavior: smooth;
   --font-family: 'PingFang SC', 'Lantinghei SC', 'Microsoft Yahei', 'Hiragino Sans GB', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans;
 }
 body {
@@ -36,6 +37,7 @@ nav {
   top: 0;
   width: 100%;
   transition: all 0.2s;
+  z-index: 100;
 }
 nav a,
 nav svg {
@@ -154,7 +156,7 @@ a>h1:hover {
   font-size: 14px;
 }
 .comment {
-  margin-top: 72px;
+  padding-top: 72px;
 }
 .comment .row {
   display: flex;
@@ -171,13 +173,22 @@ a>h1:hover {
   transition: all 0.35s;
   margin-bottom: 16px;
 }
+.comment .row input:first-child {
+  margin-top: 24px;
+}
 .comment .row input:last-child {
   margin-bottom: 0;
 }
 .comment .row input:focus {
   border: 1px solid #666;
 }
-.comment .row .comment-conent {
+.comment .row input::placeholder {
+  color: #ccc;
+}
+.comment .row textarea::placeholder {
+  color: #ccc;
+}
+.comment .row .comment-content {
   width: 100%;
   resize: none;
   height: 140px;
@@ -188,9 +199,35 @@ a>h1:hover {
   box-sizing: border-box;
   font-family: var(--font-family);
   vertical-align: middle;
+  position: relative;
 }
-.comment .row .comment-conent:focus {
+.comment .row .comment-content:focus {
   border: 1px solid #666;
+}
+.comment .comment-content-row {
+  position: relative;
+}
+.comment .comment-content-row .comment-content-at {
+  transition: all 0.15s;
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  background: #bbb;
+  opacity: 0;
+  width: 0;
+  height: 32px;
+  line-height: 32px;
+  color: #fff;
+  border-radius: 16px;
+  z-index: 10;
+  cursor: pointer;
+  overflow: hidden;
+}
+.comment .comment-content-row .comment-content-at .close {
+  margin-left: 12px;
+}
+.comment .comment-content-row .comment-content-at:hover {
+  background: #ff6347;
 }
 button.submit {
   border: none;
@@ -200,12 +237,12 @@ button.submit {
   transition: all 0.5s;
   color: #666;
   border: 1px solid #eee;
+  cursor: pointer;
 }
 button.submit:hover {
   background: #222;
   border: 1px solid #222;
   color: #fff;
-  cursor: pointer;
 }
 .comments-wrapper {
   margin-top: 48px;
@@ -214,12 +251,21 @@ button.submit:hover {
   display: flex;
   align-items: center;
   font-size: 15px;
+  position: relative;
 }
 .comments-wrapper .head .alia {
   color: #666;
 }
 .comments-wrapper .head .at {
   margin: 0 4px;
+}
+.comments-wrapper .head .reply {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
 }
 .comments-wrapper .head .time {
   color: #999;
@@ -244,7 +290,7 @@ button.submit:hover {
 .comments-wrapper .comment-wrapper:last-child {
   border-bottom: none;
 }
-.comments-wrapper .comment-wrapper > .content:last-child {
+.comments-wrapper .comment-wrapper .__comment-wrapper > .content:last-child {
   border-bottom: none;
 }
 .comments-wrapper .sub-comment-wrapper {
@@ -263,14 +309,34 @@ button.submit:hover {
   .header-pictrue {
     height: 450px;
   }
+  .comments-wrapper .__comment-wrapper:hover .reply,
+  .comments-wrapper .sub-comment-wrapper:hover .reply {
+    opacity: 1;
+  }
   .comments-wrapper .head {
     flex-direction: row;
+    font-size: 16px;
+  }
+  .comments-wrapper .head .reply {
+    right: 140px;
+    top: 6px;
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .comments-wrapper .head .reply:hover {
+    color: #222;
+  }
+  .comments-wrapper .head .time {
+    font-size: 14px;
   }
   .comments-wrapper .alia_time-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+  }
+  .comments-wrapper .content {
+    margin-left: 52px;
   }
   .comment .row {
     flex-direction: row;
