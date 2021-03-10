@@ -8,7 +8,7 @@ block content
       time.date(datatime=data.create_date)= new Date(data.create_date).toDateString()
       p.content!= data.content
     .comment#comment
-      .row
+      .row(style="margin-top: 24px")
         input.alia(placeholder="Name (Required)")
         input.email(placeholder="Email")
       .row.comment-content-row

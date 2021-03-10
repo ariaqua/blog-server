@@ -152,8 +152,6 @@ a>h1
       box-sizing border-box
       transition all 0.35s
       margin-bottom 16px
-      &:first-child
-        margin-top 24px
       &:last-child
         margin-bottom 0
       &:focus
@@ -198,6 +196,8 @@ a>h1
         margin-left 12px
       &:hover
         background tomato
+        .close
+          font-weight bold
 
 button.submit
   border none
@@ -241,11 +241,10 @@ button.submit
     border-radius 50%
     margin-right 12px
   .content
-    margin 4px 0 18px 24px
-    padding-bottom 18px
+    margin 4px 0 16px 24px
     border-bottom 1px solid whitesmoke
   .comment-wrapper
-    margin-bottom 42px
+    margin-bottom 32px
     border-bottom 1px solid whitesmoke
     &:last-child
       border-bottom none
@@ -254,6 +253,8 @@ button.submit
         border-bottom none
   .sub-comment-wrapper
     margin-left 24px
+    .content
+      padding-bottom 8px
     &:last-child > .content
       border-bottom none
 
@@ -286,6 +287,8 @@ button.submit
       justify-content space-between
       width 100%
     .content
+      margin-left 52px
+    .sub-comment-wrapper
       margin-left 52px
   .comment
     .row

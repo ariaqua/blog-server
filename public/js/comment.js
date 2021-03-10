@@ -1,7 +1,6 @@
+// (() => {
 const articleId = location.pathname.split('/').pop();
-const alia = document.querySelector('.alia');
-const email = document.querySelector('.email');
-const comment = document.querySelector('.comment-content');
+
 const commentAt = document.querySelector('.comment-content-at');
 
 // fetch comments
@@ -10,8 +9,7 @@ const commentsWrapper = document.querySelector('.comments-wrapper');
 function fetchComment() {
   fetch(`api/comment/${articleId}`).then(async (data) => {
     let comments,
-      str = '',
-      deepStr = '';
+      str = '';
 
     comments = await data.json();
 
@@ -22,9 +20,10 @@ function fetchComment() {
         let subStr = '';
         if (comment.children.length) {
           comment.children.forEach((subComment) => {
+            let deepStr = '';
             if (subComment.deep_reply_id) {
               deepStr = `
-                <span style="color: tomato"><span class="at">@</span>${subComment.deep_reply_name}</span>
+                <span style="color: tomato"><span class="at">@</span>${subComment.deep_reply_alia}</span>
                 `;
             }
 
@@ -40,9 +39,13 @@ function fetchComment() {
                         href="#comment"
                         class="reply" 
                         onclick="reply(
+                          this,
+                          '${comment.alia}',
+                          '${comment.email}',
+                          ${comment.id},
                           ${subComment.id},
                           '${subComment.alia}',
-                          '${subComment.email}'
+                          '${subComment.email}',
                       )">
                         Reply
                       </a>
@@ -69,7 +72,10 @@ function fetchComment() {
                       href="#comment" 
                       class="reply" 
                       onclick="reply(
-                        ${comment.id}, '${comment.alia}', '${comment.email}'
+                        this,
+                        '${comment.alia}',
+                        '${comment.email}',
+                        ${comment.id}
                     )">
                       Reply
                     </a>
@@ -97,6 +103,14 @@ fetchComment();
 // comment
 const submit = document.querySelector('.submit');
 
+const alia = document.querySelector('.alia');
+const email = document.querySelector('.email') || null;
+const comment = document.querySelector('.comment-content');
+let parent = null,
+  deep_reply_id = null,
+  deep_reply_alia = null,
+  deep_reply_email = null;
+
 submit.onclick = function () {
   const avatar =
     'http://cdn.u2.huluxia.com/g3/M00/2A/74/wKgBOVwKin-APdabAADFkZN89Ok088.jpg';
@@ -105,7 +119,14 @@ submit.onclick = function () {
     avatar,
     comment: comment.value,
     article: +articleId,
+    parent,
+    deep_reply_id,
+    deep_reply_alia,
+    deep_reply_email,
   };
+  if (email.value) payload.email = email.value;
+  if (payload.parent) payload.article = null;
+  console.log(payload);
   fetch('api/comment', {
     method: 'post',
     body: JSON.stringify(payload),
@@ -116,25 +137,58 @@ submit.onclick = function () {
     .then(async (data) => {
       console.log(await data.json());
       fetchComment();
+      commentAt.click();
+      comment.value = '';
+      parent = null;
+      deep_reply_id = null;
+      deep_reply_alia = null;
+      deep_reply_email = null;
+      location.hash = '#reply-flag';
     })
     .catch((error) => console.error('Error:', error));
 };
 
 // reply
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function reply(id, alia, email) {
-  console.log(id, alia, email);
-  commentAt.innerHTML = '@ ' + alia + '<span class="close">x</span>';
-  commentAt.style.opacity = 1;
-  commentAt.style.width = 'inherit';
-  commentAt.style.padding = '0 16px';
+function reply(
+  _this,
+  _alia,
+  _email,
+  _parent = null,
+  _deep_reply_id = null,
+  _deep_reply_alia = null,
+  _deep_reply_email = null,
+) {
+  const commentAtStyle = commentAt.style;
+  const replyAlia = _deep_reply_alia ? _deep_reply_alia : _alia;
+  console.log(replyAlia);
+  commentAt.innerHTML = '@ ' + replyAlia + '<span class="close">x</span>';
+  commentAtStyle.opacity = 1;
+  commentAtStyle.width = 'inherit';
+  commentAtStyle.padding = '0 16px';
   comment.style.paddingTop = '58px';
 
-  // document.querySelector('.comment-content').value = '@ ' + alia;
+  parent = _parent;
+  deep_reply_id = _deep_reply_id;
+  deep_reply_alia = _deep_reply_alia;
+  deep_reply_email = _deep_reply_email;
+
+  const _reply_flag = document.getElementById('reply-flag');
+  console.log(_reply_flag);
+  if (_reply_flag) {
+    _reply_flag.removeAttribute('id');
+  }
+  _this.id = 'reply-flag';
 }
 
 commentAt.onclick = function () {
   commentAt.style.width = 0;
   commentAt.style.padding = 0;
   comment.style.paddingTop = '16px';
+
+  parent = null;
+  deep_reply_id = null;
+  deep_reply_alia = null;
+  deep_reply_email = null;
 };
+// })();

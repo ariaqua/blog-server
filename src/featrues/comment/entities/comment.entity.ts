@@ -35,7 +35,7 @@ export class Comment {
   deep_reply_id: number;
 
   @Column({ nullable: true })
-  deep_reply_name: string;
+  deep_reply_alia: string;
 
   @Column({ nullable: true })
   deep_reply_email: string;
