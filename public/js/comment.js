@@ -1,7 +1,4 @@
-// (() => {
 const articleId = location.pathname.split('/').pop();
-
-const commentAt = document.querySelector('.comment-content-at');
 
 // fetch comments
 const commentsWrapper = document.querySelector('.comments-wrapper');
@@ -36,10 +33,10 @@ function fetchComment() {
                       <span class="alia">${subComment.alia}</span>
                       <span>${deepStr}</span>
                       <a 
-                        href="#comment"
                         class="reply" 
                         onclick="reply(
                           this,
+                          'deepReply',
                           '${comment.alia}',
                           '${comment.email}',
                           ${comment.id},
@@ -69,10 +66,10 @@ function fetchComment() {
                   <div class="alia_time-wrapper">
                     <div class="alia">${comment.alia}</div>\
                     <a
-                      href="#comment" 
                       class="reply" 
                       onclick="reply(
                         this,
+                        'secondaryReply',
                         '${comment.alia}',
                         '${comment.email}',
                         ${comment.id}
@@ -101,19 +98,22 @@ function fetchComment() {
 fetchComment();
 
 // comment
-const submit = document.querySelector('.submit');
+const submit = document.querySelector('form.comment');
 
 const alia = document.querySelector('.alia');
-const email = document.querySelector('.email') || null;
+const email = document.querySelector('.email');
 const comment = document.querySelector('.comment-content');
-let parent = null,
-  deep_reply_id = null,
-  deep_reply_alia = null,
-  deep_reply_email = null;
 
-submit.onclick = function () {
-  const avatar =
-    'http://cdn.u2.huluxia.com/g3/M00/2A/74/wKgBOVwKin-APdabAADFkZN89Ok088.jpg';
+alia.value = localStorage.getItem('alia') || '';
+email.value = localStorage.getItem('email') || '';
+const avatar =
+  localStorage.getItem('avatar') ||
+  'http://cdn.u2.huluxia.com/g3/M00/2A/74/wKgBOVwKin-APdabAADFkZN89Ok088.jpg';
+
+submit.onsubmit = function (e) {
+  e.preventDefault();
+  reset();
+
   const payload = {
     alia: alia.value,
     avatar,
@@ -137,21 +137,89 @@ submit.onclick = function () {
     .then(async (data) => {
       console.log(await data.json());
       fetchComment();
-      commentAt.click();
       comment.value = '';
-      parent = null;
-      deep_reply_id = null;
-      deep_reply_alia = null;
-      deep_reply_email = null;
-      location.hash = '#reply-flag';
+      localStorage.setItem('alia', alia.value);
+      localStorage.setItem('email', email.value);
+      localStorage.setItem('avatar', avatar);
     })
     .catch((error) => console.error('Error:', error));
 };
 
+// reply comment
+let parent = null,
+  deep_reply_id = null,
+  deep_reply_alia = null,
+  deep_reply_email = null;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function replySubmit() {
+  const replyAlia = document.querySelector('.reply_alia');
+  const replyEmail = document.querySelector('.reply_email');
+  const replyComment = document.querySelector('.reply_comment-content');
+
+  replyAlia.value = localStorage.getItem('alia') || '';
+  replyEmail.value = localStorage.getItem('email') || '';
+
+  const payload = {
+    alia: replyAlia.value,
+    avatar,
+    comment: replyComment.value,
+    parent,
+    deep_reply_id,
+    deep_reply_alia,
+    deep_reply_email,
+  };
+  if (replyEmail.value) payload.email = replyEmail.value;
+
+  const validation =
+    replyAlia.reportValidity() &&
+    replyEmail.reportValidity() &&
+    replyComment.reportValidity();
+
+  if (validation) {
+    fetch('api/comment', {
+      method: 'post',
+      body: JSON.stringify(payload),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    })
+      .then(async (data) => {
+        console.log(await data.json());
+        fetchComment();
+        replyComment.value = '';
+        reset();
+        localStorage.setItem('alia', alia.value);
+        localStorage.setItem('email', email.value);
+        localStorage.setItem('avatar', avatar);
+      })
+      .catch((error) => console.error('Error:', error));
+  }
+}
+
 // reply
+const commentStr = `
+    <div class="comment">
+        <div class="row" style="margin-top: 24px">
+          <input class="reply_alia" placeholder="Name (Required)" Required maxlength="8" minlength="2" />
+          <input class="reply_email" placeholder="Email" type="email" />
+        </div>
+        <div class="row comment-content-row">
+            <div class="comment-content-at"></div>
+            <textarea class="reply_comment-content" placeholder="Say Something (Required)" Required maxlength="24" minlength="2"></textarea>
+        </div>
+        <button class="btn reply_submit" onclick="replySubmit()">Submit</button>
+        <button class="btn reply_cancel" onclick="replyCancel()">Cancel</button>
+    </div>
+  `;
+const commentWrapper = document.createElement('div');
+commentWrapper.id = 'replyFlag';
+commentWrapper.innerHTML = commentStr;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function reply(
   _this,
+  _level,
   _alia,
   _email,
   _parent = null,
@@ -159,36 +227,46 @@ function reply(
   _deep_reply_alia = null,
   _deep_reply_email = null,
 ) {
+  if (_level === 'deepReply') {
+    _this.parentElement.parentElement.parentElement.parentElement.append(
+      commentWrapper,
+    );
+  } else {
+    _this.parentElement.parentElement.parentElement.append(commentWrapper);
+  }
+
+  const replyAlia = document.querySelector('.reply_alia');
+  const replyEmail = document.querySelector('.reply_email');
+
+  replyAlia.value = localStorage.getItem('alia') || '';
+  replyEmail.value = localStorage.getItem('email') || '';
+
+  const replyComment = document.querySelector('.reply_comment-content');
+  const commentAt = document.querySelector('.comment-content-at');
   const commentAtStyle = commentAt.style;
-  const replyAlia = _deep_reply_alia ? _deep_reply_alia : _alia;
-  console.log(replyAlia);
-  commentAt.innerHTML = '@ ' + replyAlia + '<span class="close">x</span>';
+  const __replyAlia = _deep_reply_alia ? _deep_reply_alia : _alia;
+
+  commentAt.innerHTML = '@ ' + __replyAlia;
   commentAtStyle.opacity = 1;
   commentAtStyle.width = 'inherit';
   commentAtStyle.padding = '0 16px';
-  comment.style.paddingTop = '58px';
+  replyComment.style.paddingTop = '58px';
 
   parent = _parent;
   deep_reply_id = _deep_reply_id;
   deep_reply_alia = _deep_reply_alia;
   deep_reply_email = _deep_reply_email;
-
-  const _reply_flag = document.getElementById('reply-flag');
-  console.log(_reply_flag);
-  if (_reply_flag) {
-    _reply_flag.removeAttribute('id');
-  }
-  _this.id = 'reply-flag';
 }
 
-commentAt.onclick = function () {
-  commentAt.style.width = 0;
-  commentAt.style.padding = 0;
-  comment.style.paddingTop = '16px';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function replyCancel() {
+  commentWrapper.remove();
+  reset();
+}
 
+function reset() {
   parent = null;
   deep_reply_id = null;
   deep_reply_alia = null;
   deep_reply_email = null;
-};
-// })();
+}

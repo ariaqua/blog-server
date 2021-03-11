@@ -7,15 +7,13 @@ block content
       h1.title= data.title
       time.date(datatime=data.create_date)= new Date(data.create_date).toDateString()
       p.content!= data.content
-    .comment#comment
+    form.comment
       .row(style="margin-top: 24px")
-        input.alia(placeholder="Name (Required)")
-        input.email(placeholder="Email")
+        input.alia(placeholder="Name (Required)" Required maxlength="8" minlength="2")
+        input.email(placeholder="Email" type="email")
       .row.comment-content-row
-        .comment-content-at
-        textarea.comment-content(placeholder="Say Something (Required)")
-      .row
-        button.submit Submit
+        textarea.comment-content(placeholder="Say Something (Required)" Required maxlength="24" minlength="2")
+      button.btn.submit(type="submit") Submit
     .comments-wrapper
 
 append foot 

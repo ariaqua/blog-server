@@ -138,7 +138,6 @@ a>h1
   font-size 14px
 
 .comment
-  padding-top 72px
   .row
     display flex
     flex-direction column
@@ -146,7 +145,7 @@ a>h1
     input
       height 38px
       border-radius 6px
-      border 1px solid #eee
+      border 1px solid #ccc
       font-family var(--font-family)
       padding 0 16px
       box-sizing border-box
@@ -161,11 +160,11 @@ a>h1
     textarea
       &::placeholder
         color #ccc
-    .comment-content
+    .comment-content, .reply_comment-content
       width 100%
       resize none
       height 140px
-      border 1px solid #eee
+      border 1px solid #ccc
       border-radius 6px
       transition all 0.35s
       padding 16px
@@ -190,16 +189,9 @@ a>h1
       color white
       border-radius 16px
       z-index 10
-      cursor pointer
       overflow hidden
-      .close
-        margin-left 12px
-      &:hover
-        background tomato
-        .close
-          font-weight bold
 
-button.submit
+button.btn
   border none
   padding 0 20px
   height 36px
@@ -208,10 +200,20 @@ button.submit
   color #666
   border 1px solid #eee
   cursor pointer
+  margin-right 16px
+  &:last-child
+    margin-right 0
   &:hover
     background #222
     border 1px solid #222
     color white
+  &.submit, &.reply_submit
+    background #666
+    color white
+    border 1px solid #666
+    &:hover
+      background tomato
+      border 1px solid tomato
 
 .comments-wrapper
   margin-top 48px
@@ -227,7 +229,7 @@ button.submit
     .reply
       position absolute
       right 0
-      top 0
+      top 4px
       color #666
       font-size 14px
       cursor pointer
@@ -243,13 +245,14 @@ button.submit
   .content
     margin 4px 0 16px 24px
     border-bottom 1px solid whitesmoke
+    padding-bottom 8px
   .comment-wrapper
     margin-bottom 32px
     border-bottom 1px solid whitesmoke
     &:last-child
       border-bottom none
-    .__comment-wrapper > .content
-      &:last-child
+    .__comment-wrapper
+      &:only-of-type > .content
         border-bottom none
   .sub-comment-wrapper
     margin-left 24px
@@ -257,6 +260,10 @@ button.submit
       padding-bottom 8px
     &:last-child > .content
       border-bottom none
+
+#replyFlag
+  margin-left 24px
+  margin-bottom 24px
 
 @media (min-width 576px)
   main.articles
@@ -299,6 +306,8 @@ button.submit
         margin-bottom 0
         &:last-child
           margin-right 0
+  #replyFlag
+    margin-left 52px
 
 @media (min-width 1200px)
   .list-pictrue
