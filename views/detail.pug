@@ -9,10 +9,10 @@ block content
       p.content!= data.content
     form.comment
       .row(style="margin-top: 24px")
-        input.alia(placeholder="Name (Required)" Required maxlength="8" minlength="2")
+        input.alia(placeholder="Name (Required, Prohibit special char)" Required pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$" maxlength="8" minlength="2")
         input.email(placeholder="Email" type="email")
       .row.comment-content-row
-        textarea.comment-content(placeholder="Say Something (Required)" Required maxlength="24" minlength="2")
+        textarea.comment-content(placeholder="Say Something (Required, maxlength:24, minlength:2)" Required maxlength="24" minlength="2")
       button.btn.submit(type="submit") Submit
     .comments-wrapper
 

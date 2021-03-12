@@ -20,7 +20,7 @@ function fetchComment() {
             let deepStr = '';
             if (subComment.deep_reply_id) {
               deepStr = `
-                <span style="color: tomato"><span class="at">@</span>${subComment.deep_reply_alia}</span>
+                <span style="color: #222"><span class="at">@</span>${subComment.deep_reply_alia}</span>
                 `;
             }
 
@@ -241,16 +241,10 @@ function reply(
   replyAlia.value = localStorage.getItem('alia') || '';
   replyEmail.value = localStorage.getItem('email') || '';
 
-  const replyComment = document.querySelector('.reply_comment-content');
   const commentAt = document.querySelector('.comment-content-at');
-  const commentAtStyle = commentAt.style;
-  const __replyAlia = _deep_reply_alia ? _deep_reply_alia : _alia;
 
+  const __replyAlia = _deep_reply_alia ? _deep_reply_alia : _alia;
   commentAt.innerHTML = '@ ' + __replyAlia;
-  commentAtStyle.opacity = 1;
-  commentAtStyle.width = 'inherit';
-  commentAtStyle.padding = '0 16px';
-  replyComment.style.paddingTop = '58px';
 
   parent = _parent;
   deep_reply_id = _deep_reply_id;
