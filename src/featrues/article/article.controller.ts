@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ArticleService } from './article.service';
@@ -37,7 +38,7 @@ export class ArticleController {
 
   // @Public()
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.articleService.findOne(+id).catch((err) => {
       throw new NotFoundException(err.message);
     });

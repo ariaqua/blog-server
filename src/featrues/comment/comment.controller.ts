@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -16,7 +23,7 @@ export class CommentController {
 
   @Public()
   @Get(':id')
-  findByArticleId(@Param('id') id: string) {
+  findByArticleId(@Param('id', ParseIntPipe) id: number) {
     return this.commentService.findByArticleId(+id);
   }
 }
