@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+// import { AppController } from './app.controller';
+// import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { ArticleModule } from './featrues/article/article.module';
 import { CategoryModule } from './featrues/category/category.module';
@@ -31,7 +31,7 @@ import { AuthModule } from './featrues/auth/auth.module';
     AlbumModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // controllers: [AppController],
+  // providers: [AppService],
 })
 export class AppModule {}

@@ -145,7 +145,7 @@ a>h1:hover {
 .articles .summary,
 .articles .title,
 .articles .date {
-  padding: 0 2rem;
+  padding: 0 0.5rem;
 }
 .content {
   color: #444;
@@ -200,21 +200,23 @@ a>h1:hover {
 .comment .row .reply_comment-content:focus {
   border: 1px solid #666;
 }
+.comment .row .reply_comment-content {
+  padding-top: 52px;
+}
 .comment .comment-content-row {
   position: relative;
 }
 .comment .comment-content-row .comment-content-at {
-  transition: all 0.15s;
   position: absolute;
   top: 16px;
   left: 12px;
   background: #bbb;
-  opacity: 0;
-  width: 0;
-  height: 32px;
-  line-height: 32px;
+  height: 28px;
+  line-height: 28px;
+  padding: 0 16px;
   color: #fff;
-  border-radius: 16px;
+  border-radius: 14px;
+  font-size: 14px;
   z-index: 10;
   overflow: hidden;
 }
@@ -365,6 +367,11 @@ button.btn.reply_submit:hover {
   }
   #replyFlag {
     margin-left: 52px;
+  }
+  .articles .summary,
+  .articles .title,
+  .articles .date {
+    padding: 0 2rem;
   }
 }
 @media (min-width: 1200px) {
