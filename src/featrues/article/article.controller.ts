@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ArticleService } from './article.service';
@@ -26,8 +27,8 @@ export class ArticleController {
 
   // @Public()
   @Get()
-  findAll() {
-    return this.articleService.findAll();
+  findAll(@Query('skip') skip: number, @Query('take') take: number) {
+    return this.articleService.findAll(skip, take);
   }
 
   // @Public()

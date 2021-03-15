@@ -17,11 +17,14 @@ export class ArticleService {
     return this.articleRepository.save(createArticleDto);
   }
 
-  findAll() {
-    return this.articleRepository.find({
+  findAll(skip = 0, take = 10) {
+    console.log(skip, take);
+    return this.articleRepository.findAndCount({
       select: ['id', 'title', 'summary', 'pictrue', 'create_date'],
       relations: ['categories'],
       order: { id: 1 },
+      skip,
+      take,
     });
   }
 
