@@ -1,12 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
-  ParseBoolPipe,
   ParseIntPipe,
   Post,
-  Query,
+  Put,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CommentService } from './comment.service';
@@ -25,10 +25,19 @@ export class CommentController {
 
   @Public()
   @Get(':id')
-  findByArticleId(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('status') status: boolean,
-  ) {
-    return this.commentService.findByArticleId(id, status);
+  findByArticleId(@Param('id', ParseIntPipe) id: number) {
+    return this.commentService.findByArticleId(id);
+  }
+
+  @Public()
+  @Put()
+  changeState(@Body() ids: number[]) {
+    return this.commentService.changeState(ids);
+  }
+
+  @Public()
+  @Delete()
+  removeMany(@Body() ids: number[]) {
+    return this.commentService.removeMany(ids);
   }
 }

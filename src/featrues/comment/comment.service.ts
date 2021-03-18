@@ -15,13 +15,9 @@ export class CommentService {
     return this.commentRepository.save(createCommentDto);
   }
 
-  findByArticleId(id: number, status: boolean) {
-    const where: any = { article: id };
-    if (status) {
-      where.status = true;
-    }
+  findByArticleId(id: number) {
     return this.commentRepository.find({
-      where,
+      where: { article: id },
       select: ['id', 'avatar', 'comment', 'alia', 'date', 'status'],
       relations: ['children'],
     });
