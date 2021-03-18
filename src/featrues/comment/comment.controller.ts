@@ -3,8 +3,10 @@ import {
   Controller,
   Get,
   Param,
+  ParseBoolPipe,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CommentService } from './comment.service';
@@ -23,7 +25,10 @@ export class CommentController {
 
   @Public()
   @Get(':id')
-  findByArticleId(@Param('id', ParseIntPipe) id: number) {
-    return this.commentService.findByArticleId(+id);
+  findByArticleId(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('status') status: boolean,
+  ) {
+    return this.commentService.findByArticleId(id, status);
   }
 }

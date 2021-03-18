@@ -15,7 +15,6 @@ import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 
-@Public()
 @Controller('api/article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
@@ -25,19 +24,19 @@ export class ArticleController {
     return this.articleService.create(createArticleDto);
   }
 
-  // @Public()
+  @Public()
   @Get()
   findAll(@Query('skip') skip: number, @Query('take') take: number) {
     return this.articleService.findAll(skip, take);
   }
 
-  // @Public()
+  @Public()
   @Get('ids')
   findByIds(@Body() ids: number[]) {
     return this.articleService.findByIds(ids);
   }
 
-  // @Public()
+  @Public()
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.articleService.findOne(+id).catch((err) => {

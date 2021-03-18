@@ -37,10 +37,4 @@ export class AuthController {
   logout() {
     return null;
   }
-
-  @Public()
-  @Get('public')
-  public() {
-    return 'public';
-  }
 }

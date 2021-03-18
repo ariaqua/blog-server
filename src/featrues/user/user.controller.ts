@@ -16,10 +16,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 // import { ValidateObjectIDPipe } from 'src/common/pipes/validateObjectID.pipe';
 import { ResponseMessage } from 'src/common/decorators/response-message.decorator';
-import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('api/user')
-@Public()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
