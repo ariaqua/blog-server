@@ -11,6 +11,7 @@ import {
 import { Public } from 'src/common/decorators/public.decorator';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { RemoveCommentDto } from './dto/remove-comment.dto';
 import { Comment } from './entities/comment.entity';
 
 @Controller('api/comment')
@@ -37,7 +38,7 @@ export class CommentController {
 
   @Public()
   @Delete()
-  removeMany(@Body() ids: number[]) {
-    return this.commentService.removeMany(ids);
+  removeMany(@Body() body: RemoveCommentDto[]) {
+    return this.commentService.removeMany(body);
   }
 }

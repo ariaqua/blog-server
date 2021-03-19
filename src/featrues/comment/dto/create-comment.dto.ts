@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -7,13 +8,14 @@ import {
 } from 'class-validator';
 import { Article } from 'src/featrues/article/entities/article.entity';
 import { Comment } from '../entities/comment.entity';
+import { Avatar } from 'src/common/enum/avatar.enum';
 
 export class CreateCommentDto {
   @IsString()
   alia: string;
 
+  @IsEnum(Avatar)
   @IsString()
-  @IsOptional()
   avatar: string;
 
   @IsEmail()

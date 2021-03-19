@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { RemoveCommentDto } from './dto/remove-comment.dto';
 import { Comment } from './entities/comment.entity';
 
 @Injectable()
@@ -36,8 +37,25 @@ export class CommentService {
     return this.commentRepository.remove(removeToComment);
   }
 
-  async removeMany(ids: number[]) {
-    const removeToComments = await this.commentRepository.findByIds(ids);
-    return this.commentRepository.remove(removeToComments);
+  async removeMany(body: RemoveCommentDto[]) {
+    const firstCommentIds = body.map((item) => {
+      if (item.isFirstComment) {
+        return item.id;
+      }
+    });
+    const replyCommentIds = body.map((item) => {
+      if (!item.isFirstComment) {
+        return item.id;
+      }
+    });
+    const removeToReplyComments = await this.commentRepository.findByIds(
+      firstCommentIds,
+    );
+    const removeToFirstComments = await this.commentRepository.findByIds(
+      replyCommentIds,
+    );
+    const r1 = await this.commentRepository.remove(removeToReplyComments);
+    const r2 = await this.commentRepository.remove(removeToFirstComments);
+    return [r1, r2];
   }
 }

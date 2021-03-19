@@ -17,6 +17,8 @@ import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { PictureType, FileType } from './enum/album.enum';
 import { MulterFile, MulterFileType } from './interface/album.interface';
+import { Avatar, AvatarsLenght } from 'src/common/enum/avatar.enum';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('api/album')
 export class AlbumController {
@@ -39,8 +41,19 @@ export class AlbumController {
 
   @Delete('unlink')
   unlink(@Body('url') url: string) {
-    console.log('url:   ' + url);
     return this.albumService.unlink(url);
+  }
+
+  @Public()
+  @Get('avatar')
+  getAvatar() {
+    return Avatar[Math.floor(Math.random() * AvatarsLenght)];
+  }
+
+  @Public()
+  @Get('validateAvatar')
+  validate(@Query('url') url: string) {
+    return Avatar[url];
   }
 
   @Post(':fileType')
