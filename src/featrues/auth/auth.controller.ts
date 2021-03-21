@@ -12,7 +12,7 @@ import { Request } from 'express';
 import { Public } from '../../common/decorators/public.decorator';
 import { UserService } from '../user/user.service';
 
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

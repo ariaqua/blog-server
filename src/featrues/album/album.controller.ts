@@ -20,7 +20,7 @@ import { MulterFile, MulterFileType } from './interface/album.interface';
 import { Avatar, AvatarsLenght } from 'src/common/enum/avatar.enum';
 import { Public } from 'src/common/decorators/public.decorator';
 
-@Controller('api/album')
+@Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 

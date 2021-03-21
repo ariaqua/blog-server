@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { RemoveCommentDto } from './dto/remove-comment.dto';
+import { DeleteCommentDto } from './dto/delete-comment.dto';
 import { Comment } from './entities/comment.entity';
 
 @Injectable()
@@ -21,6 +21,7 @@ export class CommentService {
       where: { article: id },
       select: ['id', 'avatar', 'comment', 'alia', 'date', 'status'],
       relations: ['children'],
+      order: { date: 1 },
     });
   }
 
@@ -37,22 +38,22 @@ export class CommentService {
     return this.commentRepository.remove(removeToComment);
   }
 
-  async removeMany(body: RemoveCommentDto[]) {
+  async removeMany(body: DeleteCommentDto[]) {
     const firstCommentIds = body.map((item) => {
-      if (item.isFirstComment) {
+      if (!item.parent) {
         return item.id;
       }
     });
     const replyCommentIds = body.map((item) => {
-      if (!item.isFirstComment) {
+      if (item.parent) {
         return item.id;
       }
     });
     const removeToReplyComments = await this.commentRepository.findByIds(
-      firstCommentIds,
+      replyCommentIds,
     );
     const removeToFirstComments = await this.commentRepository.findByIds(
-      replyCommentIds,
+      firstCommentIds,
     );
     const r1 = await this.commentRepository.remove(removeToReplyComments);
     const r2 = await this.commentRepository.remove(removeToFirstComments);

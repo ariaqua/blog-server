@@ -18,9 +18,15 @@ export class ArticleService {
   }
 
   findAll(skip = 0, take = 10) {
-    console.log(skip, take);
     return this.articleRepository.findAndCount({
-      select: ['id', 'title', 'summary', 'pictrue', 'create_date'],
+      select: [
+        'id',
+        'title',
+        'summary',
+        'pictrue',
+        'create_date',
+        'article_state',
+      ],
       relations: ['categories'],
       order: { id: 1 },
       skip,

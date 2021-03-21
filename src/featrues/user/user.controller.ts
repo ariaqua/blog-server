@@ -17,7 +17,7 @@ import { User } from './entities/user.entity';
 // import { ValidateObjectIDPipe } from 'src/common/pipes/validateObjectID.pipe';
 import { ResponseMessage } from 'src/common/decorators/response-message.decorator';
 
-@Controller('api/user')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

@@ -11,10 +11,10 @@ import {
 import { Public } from 'src/common/decorators/public.decorator';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { RemoveCommentDto } from './dto/remove-comment.dto';
+import { DeleteCommentDto } from './dto/delete-comment.dto';
 import { Comment } from './entities/comment.entity';
 
-@Controller('api/comment')
+@Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
@@ -30,15 +30,15 @@ export class CommentController {
     return this.commentService.findByArticleId(id);
   }
 
-  @Public()
+  // @Public()
   @Put()
   changeState(@Body() ids: number[]) {
     return this.commentService.changeState(ids);
   }
 
-  @Public()
+  // @Public()
   @Delete()
-  removeMany(@Body() body: RemoveCommentDto[]) {
+  removeMany(@Body() body: DeleteCommentDto[]) {
     return this.commentService.removeMany(body);
   }
 }
