@@ -28,7 +28,7 @@ export class MulterConfigService implements MulterOptionsFactory {
         destination: (req, file, cb) => {
           const dir = join(
             __dirname,
-            '../uploads',
+            '../../uploads',
             getMIMETypedir(file.mimetype),
           );
           cb(null, dir);

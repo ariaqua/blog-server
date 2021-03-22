@@ -18,7 +18,7 @@ import { AuthModule } from './featrues/auth/auth.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, 'uploads'),
+      rootPath: join(__dirname, '../uploads'),
       serveRoot: '/uploads/',
     }),
     CoreModule,
