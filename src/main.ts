@@ -15,9 +15,7 @@ async function bootstrap() {
 
   console.log(process.env.NODE_ENV);
 
-  if (process.env.NODE_ENV === 'development') {
-    app.setGlobalPrefix('api');
-  }
+  app.setGlobalPrefix('blog');
 
   // app.enableCors({ origin: 'http://localhost:9528' });
 
