@@ -13,7 +13,9 @@ async function bootstrap() {
     logger: true,
   });
 
-  if ((process.env.NODE_ENV = 'development')) {
+  console.log(process.env.NODE_ENV);
+
+  if (process.env.NODE_ENV === 'development') {
     app.setGlobalPrefix('api');
   }
 
