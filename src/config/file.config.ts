@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   MulterModuleOptions,
   MulterOptionsFactory,
@@ -22,13 +23,14 @@ function getMIMETypedir(mime: string) {
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {
+  constructor(private readonly configService: ConfigService) {}
+
   createMulterOptions(): MulterModuleOptions {
     return {
       storage: diskStorage({
         destination: (req, file, cb) => {
           const dir = join(
-            __dirname,
-            '../../uploads',
+            this.configService.get<string>('UPLOAD_DIR'),
             getMIMETypedir(file.mimetype),
           );
           cb(null, dir);

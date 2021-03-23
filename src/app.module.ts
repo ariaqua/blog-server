@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { join } from 'path';
-import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { CoreModule } from './core/core.module';
 import { ArticleModule } from './featrues/article/article.module';
@@ -17,10 +15,6 @@ import { AuthModule } from './featrues/auth/auth.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../uploads'),
-      serveRoot: '/uploads/',
-    }),
     CoreModule,
     ArticleModule,
     CategoryModule,

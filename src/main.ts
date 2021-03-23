@@ -1,7 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { AppModule } from './app.module';
 
 import * as helmet from 'helmet';
@@ -17,7 +16,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('blog');
 
-  // app.enableCors({ origin: /https:\/\/(\w+\.)?vaqua.top/ });
   app.enableCors({
     origin: ['https://admin.vaqua.top', 'https://vaqua.top'],
   });
@@ -33,11 +31,6 @@ async function bootstrap() {
   app.set('trust proxy', 1);
 
   app.useGlobalPipes(new ValidationPipe());
-
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-
-  // app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  // app.setViewEngine('pug');
 
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT);
