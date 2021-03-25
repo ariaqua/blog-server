@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsNumber,
@@ -29,6 +30,10 @@ export class CreateCommentDto {
   @IsNumber()
   @IsOptional()
   parent: Comment;
+
+  @IsBoolean()
+  @IsOptional()
+  isAdmin: boolean;
 
   @IsNumber()
   @IsOptional()

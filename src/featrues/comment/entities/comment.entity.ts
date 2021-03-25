@@ -28,6 +28,9 @@ export class Comment {
   @Column({ default: true })
   status: boolean;
 
+  @Column({ default: false })
+  isAdmin: boolean;
+
   @Column({ length: 120 })
   comment: string;
 
