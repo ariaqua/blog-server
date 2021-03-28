@@ -17,7 +17,11 @@ async function bootstrap() {
   app.setGlobalPrefix('blog');
 
   app.enableCors({
-    origin: ['https://admin.vaqua.top', 'https://vaqua.top'],
+    origin: [
+      'https://admin.vaqua.top',
+      'https://www.vaqua.top',
+      'https://vaqua.top',
+    ],
   });
 
   app.use(helmet());

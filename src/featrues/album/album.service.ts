@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
 import { unlinkSync } from 'fs';
 import { join } from 'path';
 
@@ -17,6 +18,7 @@ export class AlbumService {
   constructor(
     @InjectEntityManager()
     private readonly albumManager: EntityManager,
+    private readonly configService: ConfigService,
   ) {}
 
   private getEntity(fielTtype: FileType) {
@@ -37,7 +39,9 @@ export class AlbumService {
 
   unlink(url: string) {
     try {
-      unlinkSync(join(__dirname, '../../', url));
+      unlinkSync(
+        join(this.configService.get<string>('UPLOAD_DIR'), '../', url),
+      );
     } catch (error) {
       throw new NotFoundException();
     }
@@ -82,7 +86,13 @@ export class AlbumService {
     let unlinkFileStatus = HANDER_SUCCESS;
     if (multerFile.url) {
       try {
-        unlinkSync(join(__dirname, '../../', multerFile.url));
+        unlinkSync(
+          join(
+            this.configService.get<string>('UPLOAD_DIR'),
+            '../',
+            multerFile.url,
+          ),
+        );
       } catch (error) {
         unlinkFileStatus = HANDER_FAILED;
       }
@@ -105,7 +115,9 @@ export class AlbumService {
     multerFiles.forEach((file) => {
       if (file.url) {
         try {
-          unlinkSync(join(__dirname, '../../', file.url));
+          unlinkSync(
+            join(this.configService.get<string>('UPLOAD_DIR'), '../', file.url),
+          );
           unlinkFilesStatus[file.url] = HANDER_SUCCESS;
         } catch (error) {
           unlinkFilesStatus[file.url] = HANDER_FAILED;
