@@ -6,13 +6,12 @@ import { AppModule } from './app.module';
 import * as helmet from 'helmet';
 // import * as csurf from 'csurf';
 import * as rateLimit from 'express-rate-limit';
+import * as compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: true,
   });
-
-  console.log(process.env.NODE_ENV);
 
   app.setGlobalPrefix('blog');
 
@@ -33,6 +32,7 @@ async function bootstrap() {
     }),
   );
   app.set('trust proxy', 1);
+  app.use(compression());
 
   app.useGlobalPipes(new ValidationPipe());
 
