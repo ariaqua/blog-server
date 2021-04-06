@@ -28,7 +28,7 @@ export class ArticleService {
         'article_state',
       ],
       relations: ['categories'],
-      order: { id: 1 },
+      order: { id: -1 },
       skip,
       take,
     });
