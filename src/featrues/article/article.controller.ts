@@ -14,6 +14,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { ArticleState } from './enum/article.enum';
 
 @Controller('article')
 export class ArticleController {
@@ -22,6 +23,15 @@ export class ArticleController {
   @Post()
   create(@Body() createArticleDto: CreateArticleDto) {
     return this.articleService.create(createArticleDto);
+  }
+
+  @Get('all')
+  _findAll(
+    @Query('skip') skip: number,
+    @Query('take') take: number,
+    @Query('article_state') article_state: ArticleState,
+  ) {
+    return this.articleService.findAll(skip, take, article_state);
   }
 
   @Public()

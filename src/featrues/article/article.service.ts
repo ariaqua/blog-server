@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
+import { ArticleState } from './enum/article.enum';
 
 @Injectable()
 export class ArticleService {
@@ -17,7 +18,11 @@ export class ArticleService {
     return this.articleRepository.save(createArticleDto);
   }
 
-  findAll(skip = 0, take = 10) {
+  findAll(skip = 0, take = 10, article_state?: any) {
+    let where: any;
+    article_state
+      ? (where = article_state === 'all' ? {} : { article_state })
+      : (where = { article_state: ArticleState.public });
     return this.articleRepository.findAndCount({
       select: [
         'id',
@@ -28,6 +33,7 @@ export class ArticleService {
         'article_state',
       ],
       relations: ['categories'],
+      where,
       order: { id: -1 },
       skip,
       take,
